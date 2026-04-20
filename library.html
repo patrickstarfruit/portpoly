@@ -333,7 +333,7 @@
   </header>
 
   <div class="lib-header">
-    <span class="lib-title">모든 게임 (1)</span>
+    <span class="lib-title" id="libTitle">모든 게임 (0)</span>
     <button class="sort-btn">
       정렬 기준
       <svg viewBox="0 0 10 6" fill="none">
@@ -349,22 +349,30 @@
   </div>
 
   <div class="grid-wrap">
-    <div class="game-grid" id="gameGrid">
-      <div class="card-scene">
-        <div class="card" data-title="Resident Evil 4" onclick="window.location.href='Re4.html'">
-          <img src="library-list/re4.jpg" alt="Resident Evil 4" draggable="false" />
-          <div class="card-shine"></div>
-          <div class="card-glow"></div>
-          <div class="card-label">Resident Evil 4</div>
-        </div>
+  <div class="game-grid" id="gameGrid">
+    <div class="card-scene">
+      <div class="card" data-title="Resident Evil 4" onclick="window.location.href='Re4.html'">
+        <img src="library-list/Re4/re4.jpg" alt="Resident Evil 4" draggable="false" />
+        <div class="card-shine"></div>
+        <div class="card-glow"></div>
+        <div class="card-label">Resident Evil 4</div>
+      </div>
+    </div>
+
+    <div class="card-scene">
+      <div class="card" data-title="PUBG: BATTLEGROUNDS" onclick="window.location.href='pubg.html'">
+        <img src="library-list/pubg/pubg.jpg" alt="PUBG: BATTLEGROUNDS" draggable="false" />
+        <div class="card-shine"></div>
+        <div class="card-glow"></div>
+        <div class="card-label">PUBG: BATTLEGROUNDS</div>
       </div>
     </div>
   </div>
-
+</div>
   <script>
     const grid = document.getElementById("gameGrid");
 
-    for (let i = 0; i < 17; i++) {
+    for (let i = 0; i < 16; i++) {
       const scene = document.createElement("div");
       scene.className = "card-scene";
       scene.innerHTML = `
@@ -418,6 +426,22 @@
         shine.style.background = "";
       });
     });
+
+    
+  const libTitle = document.getElementById("libTitle");
+
+  function updateLibraryCount() {
+    const realGameCards = grid.querySelectorAll('.card[data-title]');
+    const gameCount = realGameCards.length;
+
+    if (libTitle) {
+      libTitle.textContent = `모든 게임 (${gameCount})`;
+    }
+
+    localStorage.setItem("gaejinsu_game_count", gameCount);
+  }
+
+  updateLibraryCount();
   </script>
 </body>
 </html>
