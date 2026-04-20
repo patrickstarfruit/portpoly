@@ -284,6 +284,8 @@
         font-size: 13px;
       }
 
+      .grid-wrap { justify-content: center; }
+
       .game-grid {
         grid-template-columns: repeat(4, 150px);
       }
@@ -291,13 +293,12 @@
 
     @media (max-width: 760px) {
       .topbar {
+        height: 56px;
         padding: 0 20px;
         gap: 20px;
       }
 
-      .brand {
-        font-size: 22px;
-      }
+      .brand { font-size: 22px; }
 
       .nav {
         gap: 12px;
@@ -305,17 +306,32 @@
       }
 
       .lib-header {
-        padding: 20px;
-        gap: 12px;
+        padding: 16px 20px 12px;
+        top: 56px;   /* 줄어든 topbar 높이에 맞춤 */
+        gap: 10px;
         flex-wrap: wrap;
       }
 
       .grid-wrap {
-        padding: 20px;
+        padding: 16px 20px 40px;
+        justify-content: center;
       }
 
       .game-grid {
-        grid-template-columns: repeat(2, 150px);
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+        gap: 8px;
+      }
+    }
+
+    /* 아주 좁은 폰 (320px~400px) */
+    @media (max-width: 420px) {
+      .topbar { gap: 14px; }
+      .brand  { font-size: 18px; }
+      .nav    { gap: 10px; font-size: 11px; }
+
+      .game-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
