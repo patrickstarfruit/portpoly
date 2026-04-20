@@ -181,18 +181,22 @@
     }
 
     .breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: var(--text-soft);
-      margin-bottom: 10px;
-      padding: 0 4px;
-    }
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-soft);
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
 
-    .breadcrumb a:hover {
-      color: #d9e7f7;
-    }
+.breadcrumb a {
+  color: var(--accent);
+}
+
+.breadcrumb a:hover {
+  color: #d9e7f7;
+}
 
     .title-row {
       display: flex;
@@ -664,18 +668,44 @@
     }
 
     .reaction-btn {
-      height: 24px;
-      padding: 0 10px;
-      border: 1px solid rgba(255,255,255,0.04);
-      background: linear-gradient(180deg, #1f3552, #17283d);
-      color: #d8e5f4;
-      font-size: 12px;
-      cursor: pointer;
-    }
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, #1f3552, #17283d);
+  color: #d8e5f4;
+  font-size: 12px;
+  cursor: pointer;
+  transition: filter 0.18s ease, transform 0.12s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
 
-    .reaction-btn:hover {
-      filter: brightness(1.06);
-    }
+.reaction-btn:hover {
+  filter: brightness(1.06);
+}
+
+.reaction-btn:active {
+  transform: translateY(1px);
+}
+
+.reaction-btn.active-yes {
+  background: linear-gradient(180deg, #2d6d4f, #1f4f39);
+  border-color: rgba(154, 203, 60, 0.55);
+  color: #eaffdc;
+  box-shadow: 0 0 0 1px rgba(154, 203, 60, 0.18) inset;
+}
+
+.reaction-btn.active-no {
+  background: linear-gradient(180deg, #7b4250, #5a2c38);
+  border-color: rgba(255, 130, 130, 0.32);
+  color: #ffe3e7;
+  box-shadow: 0 0 0 1px rgba(255, 130, 130, 0.12) inset;
+}
+
+.reaction-btn.active-fun {
+  background: linear-gradient(180deg, #8e6b26, #6b4f1b);
+  border-color: rgba(255, 214, 102, 0.34);
+  color: #fff1bf;
+  box-shadow: 0 0 0 1px rgba(255, 214, 102, 0.12) inset;
+}
 
     @media (max-width: 980px) {
       .page-inner {
@@ -761,12 +791,10 @@
   <section class="hero-wrap">
     <div class="page-inner">
       <div class="breadcrumb">
-        <a href="#">모든 게임</a>
-        <span>›</span>
-        <a href="#">액션 게임</a>
-        <span>›</span>
-        <span>Resident Evil 4</span>
-      </div>
+  <a href="library.html">라이브러리</a>
+  <span>›</span>
+  <span>Resident Evil 4</span>
+</div>
 
       <div class="title-row">
         <h1 class="game-title">Resident Evil 4</h1>
@@ -860,10 +888,10 @@
           <button class="icon-btn" type="button">▾</button>
         </div>
 
-        <button class="queue-btn" type="button">
-          <span>대기열 보기</span>
-          <span>➜</span>
-        </button>
+        <button class="queue-btn" type="button" onclick="window.location.href='library.html'">
+  <span>←</span>
+  <span>라이브러리로 돌아가기</span>
+</button>
       </div>
     </div>
   </section>
@@ -920,11 +948,11 @@
         </div>
 
         <div class="review-footer">
-          <span class="label">이 리뷰가 유용한가요?</span>
-          <button class="reaction-btn" type="button">👍 네</button>
-          <button class="reaction-btn" type="button">👎 아니요</button>
-          <button class="reaction-btn" type="button">😄 유쾌</button>
-        </div>
+  <span class="label">이 리뷰가 유용한가요?</span>
+  <button class="reaction-btn" type="button" data-reaction="yes">👍 네</button>
+  <button class="reaction-btn" type="button" data-reaction="no">👎 아니요</button>
+  <button class="reaction-btn" type="button" data-reaction="fun">😄 유쾌</button>
+</div>
       </div>
     </article>
   </section>
@@ -998,6 +1026,27 @@
     window.addEventListener("load", () => {
       buildGallery();
     });
+     const reactionYes = document.querySelector('[data-reaction="yes"]');
+  const reactionNo = document.querySelector('[data-reaction="no"]');
+  const reactionFun = document.querySelector('[data-reaction="fun"]');
+
+  if (reactionYes && reactionNo && reactionFun) {
+    reactionYes.addEventListener("click", () => {
+      const isActive = reactionYes.classList.contains("active-yes");
+      reactionYes.classList.toggle("active-yes", !isActive);
+      reactionNo.classList.remove("active-no");
+    });
+
+    reactionNo.addEventListener("click", () => {
+      const isActive = reactionNo.classList.contains("active-no");
+      reactionNo.classList.toggle("active-no", !isActive);
+      reactionYes.classList.remove("active-yes");
+    });
+
+    reactionFun.addEventListener("click", () => {
+      reactionFun.classList.toggle("active-fun");
+    });
+  }
   </script>
 </body>
 </html>
