@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAEJINSU ARCHIVE — 라이브러리</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ui-scale: 1.28;
+
+      --bg: #0b1220;
+      --surface: #111a2b;
+      --border: rgba(255,255,255,0.05);
+      --accent: #7ab8ff;
+      --text: #f4f7fb;
+      --muted: #8695a8;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    body {
+      overflow-x: auto;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      height: calc(72px * var(--ui-scale));
+      display: flex;
+      align-items: center;
+      gap: calc(34px * var(--ui-scale));
+      padding: 0 calc(56px * var(--ui-scale));
+      background: linear-gradient(to bottom, rgba(8,14,25,0.96), rgba(8,14,25,0.80));
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      font-size: calc(26px * var(--ui-scale));
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--text);
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    .brand span { color: var(--accent); }
+
+    .nav {
+      display: flex;
+      gap: calc(24px * var(--ui-scale));
+      color: #b3bfd0;
+      font-size: calc(14px * var(--ui-scale));
+    }
+
+    .nav div {
+      cursor: default;
+      transition: color 0.2s;
+    }
+
+    .nav div:hover {
+      color: #fff;
+    }
+
+    /* ── LIBRARY HEADER ── */
+    .lib-header {
+      padding: calc(28px * var(--ui-scale)) calc(56px * var(--ui-scale)) calc(16px * var(--ui-scale));
+      display: flex;
+      align-items: center;
+      gap: calc(20px * var(--ui-scale));
+      position: sticky;
+      top: calc(72px * var(--ui-scale));
+      z-index: 50;
+      background: var(--bg);
+    }
+
+    .lib-title {
+      font-size: calc(14px * var(--ui-scale));
+      color: #b3bfd0;
+      letter-spacing: 0.5px;
+    }
+
+    .sort-btn {
+      display: flex;
+      align-items: center;
+      gap: calc(6px * var(--ui-scale));
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: calc(4px * var(--ui-scale));
+      color: #c5d1dd;
+      font-size: calc(13px * var(--ui-scale));
+      padding: calc(5px * var(--ui-scale)) calc(12px * var(--ui-scale));
+      cursor: pointer;
+      transition: background 0.2s;
+      line-height: 1;
+    }
+
+    .sort-btn:hover {
+      background: rgba(255,255,255,0.10);
+    }
+
+    .sort-btn svg {
+      opacity: 0.6;
+      width: calc(10px * var(--ui-scale));
+      height: calc(6px * var(--ui-scale));
+      flex-shrink: 0;
+    }
+
+    /* ── GRID ── */
+    .grid-wrap {
+      padding: calc(24px * var(--ui-scale)) calc(56px * var(--ui-scale)) calc(60px * var(--ui-scale));
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(6, calc(168px * var(--ui-scale)));
+      gap: calc(14px * var(--ui-scale));
+      width: max-content;
+      max-width: 100%;
+    }
+
+    /* ── CARD ── */
+    .card-scene {
+      perspective: calc(900px * var(--ui-scale));
+      position: relative;
+      z-index: 1;
+      transition: z-index 0s;
+    }
+
+    .card-scene.active {
+      z-index: 20;
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      border-radius: calc(6px * var(--ui-scale));
+      overflow: hidden;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transform: rotateX(0deg) rotateY(0deg) scale(1) translateZ(0px);
+      transition:
+        transform 0.45s cubic-bezier(0.23, 1, 0.32, 1),
+        box-shadow 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 calc(4px * var(--ui-scale)) calc(16px * var(--ui-scale)) rgba(0,0,0,0.5);
+      will-change: transform;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .card-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(160deg, #1a2640 0%, #0f1925 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-placeholder span {
+      font-size: calc(11px * var(--ui-scale));
+      color: #3a4a5e;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .card-shine {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      border-radius: calc(6px * var(--ui-scale));
+      background: radial-gradient(
+        circle at 50% 50%,
+        rgba(255, 255, 255, 0.18) 0%,
+        rgba(180, 210, 255, 0.10) 35%,
+        transparent 70%
+      );
+    }
+
+    .card-glow {
+      position: absolute;
+      inset: -1px;
+      border-radius: calc(7px * var(--ui-scale));
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      box-shadow:
+        0 0 0 1px rgba(122, 184, 255, 0.4),
+        0 0 calc(30px * var(--ui-scale)) calc(4px * var(--ui-scale)) rgba(80, 160, 255, 0.18);
+    }
+
+    .card.hovered {
+      box-shadow:
+        0 calc(24px * var(--ui-scale)) calc(60px * var(--ui-scale)) rgba(0,0,0,0.7),
+        0 calc(8px * var(--ui-scale)) calc(24px * var(--ui-scale)) rgba(0,0,0,0.5);
+    }
+
+    .card.hovered .card-shine { opacity: 1; }
+    .card.hovered .card-glow  { opacity: 1; }
+
+    .card-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: calc(28px * var(--ui-scale)) calc(10px * var(--ui-scale)) calc(10px * var(--ui-scale));
+      background: linear-gradient(to top, rgba(5,10,20,0.92) 0%, transparent 100%);
+      font-size: calc(12px * var(--ui-scale));
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: #e8f0fa;
+      opacity: 0;
+      transform: translateY(calc(4px * var(--ui-scale)));
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+
+    .card:hover .card-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1700px) {
+      :root {
+        --ui-scale: 1.18;
+      }
+    }
+
+    @media (max-width: 1450px) {
+      :root {
+        --ui-scale: 1.08;
+      }
+    }
+
+    @media (max-width: 1280px) {
+      :root {
+        --ui-scale: 1;
+      }
+
+      .topbar {
+        padding: 0 32px;
+      }
+
+      .lib-header {
+        padding: 24px 32px 14px;
+      }
+
+      .grid-wrap {
+        padding: 24px 32px 50px;
+      }
+
+      .game-grid {
+        grid-template-columns: repeat(6, 150px);
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .nav {
+        gap: 16px;
+        font-size: 13px;
+      }
+
+      .game-grid {
+        grid-template-columns: repeat(4, 150px);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        padding: 0 20px;
+        gap: 20px;
+      }
+
+      .brand {
+        font-size: 22px;
+      }
+
+      .nav {
+        gap: 12px;
+        font-size: 12px;
+      }
+
+      .lib-header {
+        padding: 20px;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .grid-wrap {
+        padding: 20px;
+      }
+
+      .game-grid {
+        grid-template-columns: repeat(2, 150px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">GAEJINSU <span>ARCHIVE</span></div>
+    <nav class="nav">
+      <div>상점</div>
+      <div>커뮤니티</div>
+      <div>정보</div>
+      <div>지원</div>
+    </nav>
+  </header>
+
+  <div class="lib-header">
+    <span class="lib-title">모든 게임 (1)</span>
+    <button class="sort-btn">
+      정렬 기준
+      <svg viewBox="0 0 10 6" fill="none">
+        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <button class="sort-btn">
+      플레이 시간
+      <svg viewBox="0 0 10 6" fill="none">
+        <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="grid-wrap">
+    <div class="game-grid" id="gameGrid">
+      <div class="card-scene">
+        <div class="card" data-title="Resident Evil 4" onclick="window.location.href='re4.html'">
+          <img src="library list/re4.jpg" alt="Resident Evil 4" draggable="false" />
+          <div class="card-shine"></div>
+          <div class="card-glow"></div>
+          <div class="card-label">Resident Evil 4</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const grid = document.getElementById("gameGrid");
+
+    for (let i = 0; i < 17; i++) {
+      const scene = document.createElement("div");
+      scene.className = "card-scene";
+      scene.innerHTML = `
+        <div class="card">
+          <div class="card-placeholder"><span>추가 예정</span></div>
+          <div class="card-shine"></div>
+          <div class="card-glow"></div>
+        </div>`;
+      grid.appendChild(scene);
+    }
+
+    document.querySelectorAll(".card").forEach(card => {
+      const shine = card.querySelector(".card-shine");
+      let raf = null;
+
+      card.addEventListener("mousemove", e => {
+        const rect = card.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+
+        const rotY = (dx / (rect.width / 2)) * 14;
+        const rotX = -(dy / (rect.height / 2)) * 14;
+
+        const pctX = ((e.clientX - rect.left) / rect.width) * 100;
+        const pctY = ((e.clientY - rect.top) / rect.height) * 100;
+
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          card.style.transform =
+            `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.07) translateZ(18px)`;
+          shine.style.background = `radial-gradient(
+            circle at ${pctX}% ${pctY}%,
+            rgba(255,255,255,0.22) 0%,
+            rgba(160,210,255,0.13) 30%,
+            rgba(80,160,255,0.06) 55%,
+            transparent 75%
+          )`;
+        });
+
+        card.classList.add("hovered");
+        card.parentElement.classList.add("active");
+      });
+
+      card.addEventListener("mouseleave", () => {
+        if (raf) cancelAnimationFrame(raf);
+        card.classList.remove("hovered");
+        card.parentElement.classList.remove("active");
+        card.style.transform = "";
+        shine.style.background = "";
+      });
+    });
+  </script>
+</body>
+</html>

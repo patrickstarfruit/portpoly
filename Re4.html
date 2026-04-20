@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAEJINSU ARCHIVE — Resident Evil 4</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-top: #04101f;
+      --bg-bottom: #020916;
+      --header: #07111d;
+      --subbar: #081425;
+      --panel: #0c1728;
+      --panel-2: #0a1423;
+      --panel-3: #12213a;
+      --line: rgba(255, 255, 255, 0.05);
+      --line-soft: rgba(255, 255, 255, 0.03);
+
+      --text: #d7e1ef;
+      --text-soft: #7c8aa3;
+      --text-dim: #5f6f89;
+
+      --accent: #7aa8de;
+      --accent-2: #5a86ba;
+      --green: #9acb3c;
+
+      --btn-dark-1: #1a2d46;
+      --btn-dark-2: #13243a;
+      --btn-blue-1: #3876c9;
+      --btn-blue-2: #2458a5;
+
+      --content-width: 940px;
+      --left-col: 616px;
+      --right-col: 324px;
+      --radius: 6px;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(88, 130, 190, 0.08), transparent 28%),
+        radial-gradient(circle at 82% 8%, rgba(70, 108, 170, 0.05), transparent 22%),
+        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+    }
+
+    body {
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(5, 10, 18, 0.55), rgba(5, 10, 18, 0.82)),
+        url("./background.png") center top / cover no-repeat;
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .page-inner {
+      width: 100%;
+      max-width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    /* 헤더 */
+    .global-header {
+      background: linear-gradient(180deg, #08111c, #060f19);
+      border-bottom: 1px solid var(--line-soft);
+      position: relative;
+      z-index: 30;
+    }
+
+    .global-header-inner {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 0 8px;
+    }
+
+    .brand {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 12px;
+      color: #aab8cd;
+    }
+
+    .main-nav a:hover {
+      color: #ffffff;
+    }
+
+    .store-subnav {
+      background: linear-gradient(180deg, #081426, #07101d);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .store-subnav-inner {
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 8px;
+    }
+
+    .store-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 11px;
+      color: #9eb1c8;
+    }
+
+    .store-links a:hover {
+      color: #ffffff;
+    }
+
+    .store-search {
+      min-width: 220px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px 0 10px;
+      font-size: 11px;
+      color: #7f97b8;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 4px;
+    }
+
+    .search-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #315d8e, #24476e);
+      color: #fff;
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+
+    /* 본문 상단 */
+    .hero-wrap {
+      padding: 18px 0 12px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(66, 96, 145, 0.10), transparent 34%),
+        linear-gradient(180deg, rgba(8, 16, 29, 0.88), rgba(4, 10, 19, 0.96));
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+      padding: 0 4px;
+    }
+
+    .breadcrumb a:hover {
+      color: #d9e7f7;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+      padding: 0 4px;
+    }
+
+    .game-title {
+      font-size: 33px;
+      font-weight: 400;
+      color: #ffffff;
+      letter-spacing: 0.2px;
+    }
+
+    .community-btn {
+      height: 28px;
+      padding: 0 11px;
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 4px;
+      background: linear-gradient(180deg, #213a58, #182c45);
+      color: #c9d8ea;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .community-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: var(--left-col) var(--right-col);
+      align-items: start;
+    }
+
+    /* 왼쪽 미디어 */
+    .media-column {
+      min-width: 0;
+    }
+
+    .stage {
+      width: 100%;
+      aspect-ratio: 616 / 353;
+      position: relative;
+      overflow: hidden;
+      background: #060d17;
+      border: 1px solid var(--line);
+      border-right: none;
+      border-radius: var(--radius) 0 0 0;
+    }
+
+    .stage-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.28s ease;
+      pointer-events: none;
+    }
+
+    .stage-image.active {
+      opacity: 1;
+    }
+
+    .stage-placeholder {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      color: #4b5d77;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #09111e, #132038);
+    }
+
+    .stage-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 54px;
+      border: none;
+      background: rgba(0,0,0,0.32);
+      color: rgba(255,255,255,0.58);
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 3;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+
+    .stage-arrow:hover {
+      background: rgba(0,0,0,0.55);
+      color: rgba(255,255,255,0.9);
+    }
+
+    .stage-arrow.prev { left: 0; }
+    .stage-arrow.next { right: 0; }
+
+    .thumb-bar {
+      margin-top: 4px;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+      scrollbar-color: #24354d transparent;
+    }
+
+    .thumb-bar::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .thumb-bar::-webkit-scrollbar-thumb {
+      background: #24354d;
+    }
+
+    .thumb {
+      width: 116px;
+      aspect-ratio: 16 / 9;
+      flex: 0 0 auto;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #09111c;
+      opacity: 0.5;
+      cursor: pointer;
+      transition: opacity 0.18s ease, border-color 0.18s ease;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumb:hover {
+      opacity: 0.75;
+    }
+
+    .thumb.active {
+      opacity: 1;
+      border-color: #d8e4f2;
+    }
+
+    /* 오른쪽 정보 칸 */
+    .info-column {
+      min-width: 0;
+      background: linear-gradient(180deg, rgba(13, 24, 41, 0.98), rgba(9, 18, 32, 0.98));
+      border: 1px solid var(--line);
+      border-left: none;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.015);
+    }
+
+    .capsule {
+      width: 100%;
+      aspect-ratio: 324 / 151;
+      overflow: hidden;
+      background: #09111c;
+      border-radius: 0 var(--radius) 0 0;
+    }
+
+    .capsule img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .capsule-fallback {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #111d31, #0a1322);
+      color: #51637d;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .summary {
+      padding: 12px 14px 14px;
+    }
+
+    .short-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #b5c3d6;
+      margin-bottom: 16px;
+    }
+
+    .summary-rows {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 8px;
+      align-items: start;
+      font-size: 12px;
+    }
+
+    .summary-row .key {
+      color: var(--text-dim);
+    }
+
+    .summary-row .value {
+      color: var(--accent);
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .summary-row .value.my {
+      color: var(--green);
+    }
+
+    .meta-table {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 8px;
+      font-size: 12px;
+      align-items: start;
+    }
+
+    .meta-row .key {
+      color: var(--text-dim);
+    }
+
+    .meta-row .value {
+      color: #ccd8e7;
+      line-height: 1.45;
+    }
+
+    .tags-title {
+      color: var(--text-dim);
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
+      font-size: 11px;
+      color: #9fbbe1;
+      background: rgba(76, 109, 154, 0.22);
+      border: 1px solid rgba(255,255,255,0.03);
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    /* 하단 액션 바 */
+    .action-row {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .action-left {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn,
+    .icon-btn,
+    .queue-btn,
+    .reaction-btn {
+      border-radius: 4px;
+    }
+
+    .small-btn {
+      min-width: 72px;
+      height: 30px;
+      padding: 0 14px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, var(--btn-dark-1), var(--btn-dark-2));
+      color: #d5e0ef;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .small-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    .icon-btn {
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, var(--btn-dark-1), var(--btn-dark-2));
+      color: #d5e0ef;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .queue-btn {
+      height: 30px;
+      padding: 0 14px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, #27456a, #1d3553);
+      color: #d6e5f6;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .queue-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    /* 리뷰 섹션 */
+    .review-section {
+      padding: 18px 0 60px;
+    }
+
+    .section-title {
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 400;
+      padding: 0 0 10px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 12px;
+    }
+
+    .review-card {
+      background: linear-gradient(180deg, rgba(16, 28, 47, 0.98), rgba(10, 19, 34, 0.98));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      gap: 18px;
+      padding: 16px 18px 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    .review-side {
+      padding-top: 2px;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #182944, #111e34);
+      border: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .profile-name {
+      font-size: 12px;
+      color: #d6e2f0;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .profile-stats {
+      font-size: 11px;
+      color: var(--text-soft);
+      line-height: 1.55;
+    }
+
+    .review-main {
+      min-width: 0;
+    }
+
+    .review-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .verdict-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .thumb-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #355f97, #24466f);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .verdict-label {
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .review-date {
+      color: var(--text-soft);
+      font-size: 11px;
+    }
+
+    .playtime {
+      margin-left: auto;
+      color: var(--text-soft);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .review-body {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line-soft);
+      color: #d4dfed;
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .review-footer {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .review-footer .label {
+      color: var(--text-soft);
+      font-size: 12px;
+      margin-right: 4px;
+    }
+
+    .reaction-btn {
+      height: 24px;
+      padding: 0 10px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, #1f3552, #17283d);
+      color: #d8e5f4;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .reaction-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    @media (max-width: 980px) {
+      .page-inner {
+        padding: 0 14px;
+      }
+
+      .store-search {
+        display: none;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stage {
+        border-right: 1px solid var(--line);
+        border-radius: var(--radius);
+      }
+
+      .info-column {
+        margin-top: 10px;
+        border-left: 1px solid var(--line);
+        border-radius: var(--radius);
+      }
+
+      .capsule {
+        border-radius: var(--radius) var(--radius) 0 0;
+      }
+
+      .action-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .review-card {
+        grid-template-columns: 1fr;
+      }
+
+      .review-head {
+        flex-wrap: wrap;
+      }
+
+      .playtime {
+        margin-left: 0;
+      }
+
+      .game-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="global-header">
+    <div class="page-inner global-header-inner">
+      <div class="brand">GAEJINSU <span>ARCHIVE</span></div>
+      <nav class="main-nav">
+        <a href="#">상점</a>
+        <a href="#">커뮤니티</a>
+        <a href="#">정보</a>
+        <a href="#">지원</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="store-subnav">
+    <div class="page-inner store-subnav-inner">
+      <nav class="store-links">
+        <a href="#">추천</a>
+        <a href="#">카테고리</a>
+        <a href="#">하드웨어</a>
+        <a href="#">특별 섹션</a>
+      </nav>
+
+      <div class="store-search">
+        <span>작품 검색</span>
+        <span class="search-icon">🔍</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero-wrap">
+    <div class="page-inner">
+      <div class="breadcrumb">
+        <a href="#">모든 게임</a>
+        <span>›</span>
+        <a href="#">액션 게임</a>
+        <span>›</span>
+        <span>Resident Evil 4</span>
+      </div>
+
+      <div class="title-row">
+        <h1 class="game-title">Resident Evil 4</h1>
+        <button class="community-btn" type="button">커뮤니티 허브</button>
+      </div>
+
+      <div class="hero-grid">
+        <div class="media-column">
+          <div class="stage" id="stage">
+            <img class="stage-image active" src="library list/Re4/re4_ss1.jpg" alt="Resident Evil 4 screenshot 1" onerror="this.remove()" />
+            <img class="stage-image" src="library list/Re4/re4_ss2.jpg" alt="Resident Evil 4 screenshot 2" onerror="this.remove()" />
+            <img class="stage-image" src="library list/Re4/re4_ss3.jpg" alt="Resident Evil 4 screenshot 3" onerror="this.remove()" />
+            <img class="stage-image" src="library list/Re4/re4_ss4.jpg" alt="Resident Evil 4 screenshot 4" onerror="this.remove()" />
+            <img class="stage-image" src="library list/Re4/re4_ss5.jpg" alt="Resident Evil 4 screenshot 5" onerror="this.remove()" />
+
+            <div class="stage-placeholder" id="stagePlaceholder">SCREENSHOT PREVIEW</div>
+
+            <button class="stage-arrow prev" id="prevBtn" type="button">‹</button>
+            <button class="stage-arrow next" id="nextBtn" type="button">›</button>
+          </div>
+
+          <div class="thumb-bar" id="thumbBar"></div>
+        </div>
+
+        <aside class="info-column">
+          <div class="capsule">
+            <img
+              src="library list/Re4/re4_title.png"
+              alt="Resident Evil 4 title image"
+              onerror="this.parentElement.innerHTML='<div class=&quot;capsule-fallback&quot;>RE4</div>'"
+            />
+          </div>
+
+          <div class="summary">
+            <p class="short-desc">
+              라쿤 시티 사건 이후 6년, 레온 S. 케네디는 대통령의 납치된 딸을 구하기 위해
+              유럽의 외딴 마을로 향한다. 원작의 핵심을 유지하면서도 전투, 연출, 분위기를
+              현대적으로 재구성한 서바이벌 호러 액션 리메이크다.
+            </p>
+
+            <div class="summary-rows">
+              <div class="summary-row">
+                <div class="key">진수 평가:</div>
+                <div class="value">압도적으로 긍정적</div>
+              </div>
+              <div class="summary-row">
+                <div class="key">한줄 평가:</div>
+                <div class="value my">
+                  긴장감과 액션의 균형이 매우 뛰어난 리메이크.
+                  
+                </div>
+              </div>
+            </div>
+
+            <div class="meta-table">
+              <div class="meta-row">
+                <div class="key">출시일:</div>
+                <div class="value">2023년 3월 23일</div>
+              </div>
+              <div class="meta-row">
+                <div class="key">개발사:</div>
+                <div class="value">CAPCOM Co., Ltd.</div>
+              </div>
+              <div class="meta-row">
+                <div class="key">배급사:</div>
+                <div class="value">CAPCOM Co., Ltd.</div>
+              </div>
+              <div class="meta-row">
+                <div class="key">장르:</div>
+                <div class="value">액션, 어드벤처 / 서바이벌 호러</div>
+              </div>
+            </div>
+
+            <div class="tags-title">이 작품의 인기 태그:</div>
+            <div class="tags">
+              <span class="tag">공포</span>
+              <span class="tag">액션</span>
+              <span class="tag">3인칭 슈팅</span>
+              <span class="tag">생존 공포</span>
+              <span class="tag">리메이크</span>
+              <span class="tag">분위기</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="action-row">
+        <div class="action-left">
+          <button class="small-btn" type="button">팔로우</button>
+          <button class="small-btn" type="button">제외</button>
+          <button class="icon-btn" type="button">▾</button>
+        </div>
+
+        <button class="queue-btn" type="button">
+          <span>대기열 보기</span>
+          <span>➜</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-inner review-section">
+    <h2 class="section-title">개진수의 리뷰</h2>
+
+    <article class="review-card">
+      <aside class="review-side">
+        <div class="avatar">🎮</div>
+        <div class="profile-name">개진수</div>
+        <div class="profile-stats">
+          게임 1개<br />
+          리뷰 1개
+        </div>
+      </aside>
+
+      <div class="review-main">
+        <div class="review-head">
+          <div class="verdict-box">
+            <span class="thumb-icon">👍</span>
+            <div>
+              <div class="verdict-label">추천</div>
+              <div class="review-date">게시 일시: 2025년 5월 24일</div>
+            </div>
+          </div>
+
+          <div class="playtime">기록상 플레이 시간 미표기</div>
+        </div>
+
+        <div class="review-body">
+          바이오하자드 RE4
+
+이 게임의 재미는 긴장과 액션의 조화에서 나온다.
+<br/><br/>
+
+단순히 분위기가 무서워서 긴장되는 게 아니다.
+게임이 플레이어에게 자원을 항상 애매하게 부족한 상태로 쥐여주기 때문에 긴장이 생긴다. 총알을 아예 안 주는 건 아니지만, 늘 “지금 써도 되나?”를 고민하게 만드는 정도로 부족하다.
+<br/><br/>
+그래서 플레이어는 계속 선택해야 한다.
+지금 강한 무기를 써서 안전하게 넘어갈지, 아니면 피해를 감수하고 자원을 아낄지 판단하게 된다. 이 과정이 단순한 불편함으로 끝나지 않고, RE4 특유의 긴장감으로 이어진다.
+<br/><br/>
+특히 쫓기는 상황이나 빠르게 적을 처리해야 하는 구간에서는 이 긴장이 더 강해진다.
+원래는 자원을 최대한 아끼는 쪽으로 판단하게 되지만, 긴박한 순간에는 그 기준이 흔들린다. 그때 플레이어는 안전과 미래를 동시에 생각해야 하고, 그 빠른 판단이 RE4의 재미를 만든다.
+<br/><br/>
+애슐리의 존재도 이 긴장을 더 키운다.
+원래는 플레이어 자신만 위험에서 벗어나면 됐지만, 애슐리가 등장하면 이제 또 다른 대상을 신경 써야 한다. 그만큼 자원과 판단 부담도 커진다.
+<br/><br/>
+그래서 애슐리를 계속 데리고 다니게 하지 않고, 등장하는 구간과 그렇지 않은 구간을 나눈 점도 좋았다.
+만약 이런 구조가 계속 반복됐다면 금방 피로해졌을 텐데, 구간을 나눠서 플레이 리듬을 조절한 점이 인상적이었다.
+<br/><br/>
+결국 RE4는
+자원 부족, 빠른 판단, 추격 상황, 애슐리 같은 요소를 통해 플레이어에게 계속 선택을 강요하고, 그 선택에서 오는 긴장을 재미로 바꿔낸 게임이라고 느꼈다.
+        </div>
+
+        <div class="review-footer">
+          <span class="label">이 리뷰가 유용한가요?</span>
+          <button class="reaction-btn" type="button">👍 네</button>
+          <button class="reaction-btn" type="button">👎 아니요</button>
+          <button class="reaction-btn" type="button">😄 유쾌</button>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <script>
+    const stage = document.getElementById("stage");
+    const thumbBar = document.getElementById("thumbBar");
+    const placeholder = document.getElementById("stagePlaceholder");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let images = [];
+    let currentIndex = 0;
+
+    function buildGallery() {
+      images = Array.from(stage.querySelectorAll(".stage-image"))
+        .filter(img => img.parentNode && img.getAttribute("src"));
+
+      images = images.filter(img => img.complete ? img.naturalWidth > 0 : true);
+
+      if (!images.length) {
+        placeholder.style.display = "flex";
+        prevBtn.style.display = "none";
+        nextBtn.style.display = "none";
+        return;
+      }
+
+      placeholder.style.display = "none";
+
+      images.forEach((img, index) => {
+        img.classList.remove("active");
+        if (index === 0) img.classList.add("active");
+
+        const thumb = document.createElement("button");
+        thumb.className = "thumb" + (index === 0 ? " active" : "");
+        thumb.type = "button";
+        thumb.innerHTML = `<img src="${img.getAttribute("src")}" alt="thumbnail ${index + 1}" />`;
+        thumb.addEventListener("click", () => switchImage(index));
+        thumbBar.appendChild(thumb);
+      });
+    }
+
+    function switchImage(index) {
+      if (!images.length || index === currentIndex) return;
+
+      const thumbs = thumbBar.querySelectorAll(".thumb");
+      images[currentIndex].classList.remove("active");
+      thumbs[currentIndex]?.classList.remove("active");
+
+      currentIndex = index;
+
+      images[currentIndex].classList.add("active");
+      thumbs[currentIndex]?.classList.add("active");
+    }
+
+    function nextImage() {
+      if (!images.length) return;
+      const next = (currentIndex + 1) % images.length;
+      switchImage(next);
+    }
+
+    function prevImage() {
+      if (!images.length) return;
+      const prev = (currentIndex - 1 + images.length) % images.length;
+      switchImage(prev);
+    }
+
+    prevBtn.addEventListener("click", prevImage);
+    nextBtn.addEventListener("click", nextImage);
+
+    window.addEventListener("load", () => {
+      buildGallery();
+    });
+  </script>
+</body>
+</html>
