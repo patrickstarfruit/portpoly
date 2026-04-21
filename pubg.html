@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GAEJINSU ARCHIVE — Battleground</title>
+  <title>GAJINSU ARCHIVE — Battleground</title>
   <style>
     * {
       box-sizing: border-box;
@@ -762,7 +762,7 @@
 
   <header class="global-header">
     <div class="page-inner global-header-inner">
-      <div class="brand">GAEJINSU <span>ARCHIVE</span></div>
+      <a href="library.html" class="brand">GAJINSU <span>ARCHIVE</span></a>
       <nav class="main-nav">
         <a href="#">상점</a>
         <a href="#">커뮤니티</a>
@@ -968,7 +968,7 @@
   </section>
 
   <script>
-    const stage = document.getElementById("stage");
+     const stage = document.getElementById("stage");
     const thumbBar = document.getElementById("thumbBar");
     const placeholder = document.getElementById("stagePlaceholder");
     const prevBtn = document.getElementById("prevBtn");
@@ -976,6 +976,8 @@
 
     let images = [];
     let currentIndex = 0;
+    let autoSlide = null;
+    const autoSlideDelay = 3500;
 
     function buildGallery() {
       images = Array.from(stage.querySelectorAll(".stage-image"))
@@ -1029,13 +1031,36 @@
       const prev = (currentIndex - 1 + images.length) % images.length;
       switchImage(prev);
     }
+function startAutoSlide() {
+  stopAutoSlide();
 
-    prevBtn.addEventListener("click", prevImage);
-    nextBtn.addEventListener("click", nextImage);
+  if (!images.length || images.length <= 1) return;
 
-    window.addEventListener("load", () => {
-      buildGallery();
-    });
+  autoSlide = setInterval(() => {
+    nextImage();
+  }, autoSlideDelay);
+}
+
+function stopAutoSlide() {
+  if (autoSlide) {
+    clearInterval(autoSlide);
+    autoSlide = null;
+  }
+}
+    prevBtn.addEventListener("click", () => {
+  prevImage();
+  startAutoSlide();
+});
+
+nextBtn.addEventListener("click", () => {
+  nextImage();
+  startAutoSlide();
+});
+
+   window.addEventListener("load", () => {
+  buildGallery();
+  startAutoSlide();
+});
      const reactionYes = document.querySelector('[data-reaction="yes"]');
   const reactionNo = document.querySelector('[data-reaction="no"]');
   const reactionFun = document.querySelector('[data-reaction="fun"]');
@@ -1058,12 +1083,13 @@
     });
   }
 
-   function updateProfileStats(reviewKey) {
+  
+  function updateProfileStats(reviewKey) {
     localStorage.setItem(reviewKey, "1");
 
-    const gameCount = Number(localStorage.getItem("gaejinsu_game_count") || 0);
+    const gameCount = Number(localStorage.getItem("gajinsu_game_count") || 0);
 
-    const reviewKeys = Object.keys(localStorage).filter(key => key.startsWith("gaejinsu_review_"));
+    const reviewKeys = Object.keys(localStorage).filter(key => key.startsWith("gajinsu_review_"));
     const reviewCount = reviewKeys.length;
 
     const gameCountEl = document.getElementById("profileGameCount");
@@ -1078,7 +1104,14 @@
     }
   }
 
-  updateProfileStats("gaejinsu_review_pubg");
+  updateProfileStats("gajinsu_review_pubg");
+
+  stage.addEventListener("mouseenter", stopAutoSlide);
+stage.addEventListener("mouseleave", startAutoSlide);
+
+thumbBar.addEventListener("mouseenter", stopAutoSlide);
+thumbBar.addEventListener("mouseleave", startAutoSlide);
+
   </script>
 </body>
 </html>
