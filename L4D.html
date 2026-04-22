@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAJINSU ARCHIVE — Left 4 Dead</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-top: #04101f;
+      --bg-bottom: #020916;
+      --header: #07111d;
+      --subbar: #081425;
+      --panel: #0c1728;
+      --panel-2: #0a1423;
+      --panel-3: #12213a;
+      --line: rgba(255, 255, 255, 0.05);
+      --line-soft: rgba(255, 255, 255, 0.03);
+
+      --text: #d7e1ef;
+      --text-soft: #7c8aa3;
+      --text-dim: #5f6f89;
+
+      --accent: #7aa8de;
+      --accent-2: #5a86ba;
+      --green: #9acb3c;
+
+      --btn-dark-1: #1a2d46;
+      --btn-dark-2: #13243a;
+      --btn-blue-1: #3876c9;
+      --btn-blue-2: #2458a5;
+
+      --content-width: 940px;
+      --left-col: 616px;
+      --right-col: 324px;
+      --radius: 6px;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(88, 130, 190, 0.08), transparent 28%),
+        radial-gradient(circle at 82% 8%, rgba(70, 108, 170, 0.05), transparent 22%),
+        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+    }
+
+    body {
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(5, 10, 18, 0.55), rgba(5, 10, 18, 0.82)),
+        url("./background.png") center top / cover no-repeat;
+      opacity: 0.18;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .page-inner {
+      width: 100%;
+      max-width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    /* 헤더 */
+    .global-header {
+      background: linear-gradient(180deg, #08111c, #060f19);
+      border-bottom: 1px solid var(--line-soft);
+      position: relative;
+      z-index: 30;
+    }
+
+    .global-header-inner {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 0 8px;
+    }
+
+    .brand {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 12px;
+      color: #aab8cd;
+    }
+
+    .main-nav a:hover {
+      color: #ffffff;
+    }
+
+    .store-subnav {
+      background: linear-gradient(180deg, #081426, #07101d);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .store-subnav-inner {
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 8px;
+    }
+
+    .store-links {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 11px;
+      color: #9eb1c8;
+    }
+
+    .store-links a:hover {
+      color: #ffffff;
+    }
+
+    .store-search {
+      min-width: 220px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px 0 10px;
+      font-size: 11px;
+      color: #7f97b8;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 4px;
+    }
+
+    .search-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #315d8e, #24476e);
+      color: #fff;
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+
+    /* 본문 상단 */
+    .hero-wrap {
+      padding: 18px 0 12px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(66, 96, 145, 0.10), transparent 34%),
+        linear-gradient(180deg, rgba(8, 16, 29, 0.88), rgba(4, 10, 19, 0.96));
+    }
+
+    .breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-soft);
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+
+.breadcrumb a {
+  color: var(--accent);
+}
+
+.breadcrumb a:hover {
+  color: #d9e7f7;
+}
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+      padding: 0 4px;
+    }
+
+    .game-title {
+      font-size: 33px;
+      font-weight: 400;
+      color: #ffffff;
+      letter-spacing: 0.2px;
+    }
+
+    .community-btn {
+      height: 28px;
+      padding: 0 11px;
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 4px;
+      background: linear-gradient(180deg, #213a58, #182c45);
+      color: #c9d8ea;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .community-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: var(--left-col) var(--right-col);
+      align-items: start;
+    }
+
+    /* 왼쪽 미디어 */
+    .media-column {
+      min-width: 0;
+    }
+
+    .stage {
+      width: 100%;
+      aspect-ratio: 616 / 353;
+      position: relative;
+      overflow: hidden;
+      background: #060d17;
+      border: 1px solid var(--line);
+      border-right: none;
+      border-radius: var(--radius) 0 0 0;
+    }
+
+    .stage-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.28s ease;
+      pointer-events: none;
+    }
+
+    .stage-image.active {
+      opacity: 1;
+    }
+
+    .stage-placeholder {
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      color: #4b5d77;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #09111e, #132038);
+    }
+
+    .stage-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 54px;
+      border: none;
+      background: rgba(0,0,0,0.32);
+      color: rgba(255,255,255,0.58);
+      font-size: 22px;
+      cursor: pointer;
+      z-index: 3;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+
+    .stage-arrow:hover {
+      background: rgba(0,0,0,0.55);
+      color: rgba(255,255,255,0.9);
+    }
+
+    .stage-arrow.prev { left: 0; }
+    .stage-arrow.next { right: 0; }
+
+    .thumb-bar {
+      margin-top: 4px;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+      scrollbar-color: #24354d transparent;
+    }
+
+    .thumb-bar::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .thumb-bar::-webkit-scrollbar-thumb {
+      background: #24354d;
+    }
+
+    .thumb {
+      width: 116px;
+      aspect-ratio: 16 / 9;
+      flex: 0 0 auto;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #09111c;
+      opacity: 0.5;
+      cursor: pointer;
+      transition: opacity 0.18s ease, border-color 0.18s ease;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .thumb:hover {
+      opacity: 0.75;
+    }
+
+    .thumb.active {
+      opacity: 1;
+      border-color: #d8e4f2;
+    }
+
+    /* 오른쪽 정보 칸 */
+    .info-column {
+      min-width: 0;
+      background: linear-gradient(180deg, rgba(13, 24, 41, 0.98), rgba(9, 18, 32, 0.98));
+      border: 1px solid var(--line);
+      border-left: none;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.015);
+    }
+
+    .capsule {
+      width: 100%;
+      aspect-ratio: 324 / 151;
+      overflow: hidden;
+      background: #09111c;
+      border-radius: 0 var(--radius) 0 0;
+    }
+
+    .capsule img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .capsule-fallback {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #111d31, #0a1322);
+      color: #51637d;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .summary {
+      padding: 12px 14px 14px;
+    }
+
+    .short-desc {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #b5c3d6;
+      margin-bottom: 16px;
+    }
+
+    .summary-rows {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 8px;
+      align-items: start;
+      font-size: 12px;
+    }
+
+    .summary-row .key {
+      color: var(--text-dim);
+    }
+
+    .summary-row .value {
+      color: var(--accent);
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .summary-row .value.my {
+      color: var(--green);
+    }
+
+    .meta-table {
+      display: grid;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 8px;
+      font-size: 12px;
+      align-items: start;
+    }
+
+    .meta-row .key {
+      color: var(--text-dim);
+    }
+
+    .meta-row .value {
+      color: #ccd8e7;
+      line-height: 1.45;
+    }
+
+    .tags-title {
+      color: var(--text-dim);
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
+      font-size: 11px;
+      color: #9fbbe1;
+      background: rgba(76, 109, 154, 0.22);
+      border: 1px solid rgba(255,255,255,0.03);
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    /* 하단 액션 바 */
+    .action-row {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .action-left {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn,
+    .icon-btn,
+    .queue-btn,
+    .reaction-btn {
+      border-radius: 4px;
+    }
+
+    .small-btn {
+      min-width: 72px;
+      height: 30px;
+      padding: 0 14px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, var(--btn-dark-1), var(--btn-dark-2));
+      color: #d5e0ef;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .small-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    .icon-btn {
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, var(--btn-dark-1), var(--btn-dark-2));
+      color: #d5e0ef;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .queue-btn {
+      height: 30px;
+      padding: 0 14px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, #27456a, #1d3553);
+      color: #d6e5f6;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .queue-btn:hover {
+      filter: brightness(1.06);
+    }
+
+    /* 리뷰 섹션 */
+    .review-section {
+      padding: 18px 0 60px;
+    }
+
+    .section-title {
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 400;
+      padding: 0 0 10px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 12px;
+    }
+
+    .review-card {
+      background: linear-gradient(180deg, rgba(16, 28, 47, 0.98), rgba(10, 19, 34, 0.98));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      gap: 18px;
+      padding: 16px 18px 14px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    .review-side {
+      padding-top: 2px;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #182944, #111e34);
+      border: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .profile-name {
+      font-size: 12px;
+      color: #d6e2f0;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .profile-stats {
+      font-size: 11px;
+      color: var(--text-soft);
+      line-height: 1.55;
+    }
+
+    .review-main {
+      min-width: 0;
+    }
+
+    .review-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .verdict-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .thumb-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #355f97, #24466f);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .verdict-label {
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .review-date {
+      color: var(--text-soft);
+      font-size: 11px;
+    }
+
+    .playtime {
+      margin-left: auto;
+      color: var(--text-soft);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .review-body {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line-soft);
+      color: #d4dfed;
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .review-footer {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .review-footer .label {
+      color: var(--text-soft);
+      font-size: 12px;
+      margin-right: 4px;
+    }
+
+    .reaction-btn {
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg, #1f3552, #17283d);
+  color: #d8e5f4;
+  font-size: 12px;
+  cursor: pointer;
+  transition: filter 0.18s ease, transform 0.12s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.reaction-btn:hover {
+  filter: brightness(1.06);
+}
+
+.reaction-btn:active {
+  transform: translateY(1px);
+}
+
+.reaction-btn.active-yes {
+  background: linear-gradient(180deg, #2d6d4f, #1f4f39);
+  border-color: rgba(154, 203, 60, 0.55);
+  color: #eaffdc;
+  box-shadow: 0 0 0 1px rgba(154, 203, 60, 0.18) inset;
+}
+
+.reaction-btn.active-no {
+  background: linear-gradient(180deg, #7b4250, #5a2c38);
+  border-color: rgba(255, 130, 130, 0.32);
+  color: #ffe3e7;
+  box-shadow: 0 0 0 1px rgba(255, 130, 130, 0.12) inset;
+}
+
+.reaction-btn.active-fun {
+  background: linear-gradient(180deg, #8e6b26, #6b4f1b);
+  border-color: rgba(255, 214, 102, 0.34);
+  color: #fff1bf;
+  box-shadow: 0 0 0 1px rgba(255, 214, 102, 0.12) inset;
+}
+
+    @media (max-width: 980px) {
+      .page-inner {
+        padding: 0 14px;
+      }
+
+      .store-search {
+        display: none;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stage {
+        border-right: 1px solid var(--line);
+        border-radius: var(--radius);
+      }
+
+      .info-column {
+        margin-top: 10px;
+        border-left: 1px solid var(--line);
+        border-radius: var(--radius);
+      }
+
+      .capsule {
+        border-radius: var(--radius) var(--radius) 0 0;
+      }
+
+      .action-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .review-card {
+        grid-template-columns: 1fr;
+      }
+
+      .review-head {
+        flex-wrap: wrap;
+      }
+
+      .playtime {
+        margin-left: 0;
+      }
+
+      .game-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="global-header">
+    <div class="page-inner global-header-inner">
+      <a href="library.html" class="brand">GAJINSU <span>ARCHIVE</span></a>
+      <nav class="main-nav">
+        <a href="#">상점</a>
+        <a href="#">커뮤니티</a>
+        <a href="#">정보</a>
+        <a href="#">지원</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="store-subnav">
+    <div class="page-inner store-subnav-inner">
+      <nav class="store-links">
+        <a href="#">추천</a>
+        <a href="#">카테고리</a>
+        <a href="#">하드웨어</a>
+        <a href="#">특별 섹션</a>
+      </nav>
+
+      <div class="store-search">
+        <span>작품 검색</span>
+        <span class="search-icon">🔍</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="hero-wrap">
+    <div class="page-inner">
+      <div class="breadcrumb">
+  <a href="library.html">라이브러리</a>
+  <span>›</span>
+  <span>Left 4 Dead</span>
+</div>
+
+      <div class="title-row">
+        <h1 class="game-title">Left 4 Dead</h1>
+        <button class="community-btn" type="button">커뮤니티 허브</button>
+      </div>
+
+      <div class="hero-grid">
+        <div class="media-column">
+          <div class="stage" id="stage">
+            <img class="stage-image active" src="library-list/L4D/L4D_title.jpg" alt="Left 4 Dead screenshot 1" onerror="this.remove()" />
+            <img class="stage-image" src="library-list/L4D/L4D_ss2.jpg" alt="Left 4 Dead screenshot 2" onerror="this.remove()" />
+            <img class="stage-image" src="library-list/L4D/L4D_ss3.jpg" alt="Left 4 Dead screenshot 3" onerror="this.remove()" />
+            <img class="stage-image" src="library-list/L4D/L4D_ss4.jpg" alt="Left 4 Dead screenshot 4" onerror="this.remove()" />
+            <img class="stage-image" src="library-list/L4D/L4D_ss5.jpg" alt="Left 4 Dead screenshot 5" onerror="this.remove()" />
+
+            <div class="stage-placeholder" id="stagePlaceholder">SCREENSHOT PREVIEW</div>
+
+            <button class="stage-arrow prev" id="prevBtn" type="button">‹</button>
+            <button class="stage-arrow next" id="nextBtn" type="button">›</button>
+          </div>
+
+          <div class="thumb-bar" id="thumbBar"></div>
+        </div>
+
+        <aside class="info-column">
+          <div class="capsule">
+            <img
+              src="library-list/L4D/L4D_title.jpg"
+              alt="Left 4 Dead title image"
+              onerror="this.parentElement.innerHTML='<div class=&quot;capsule-fallback&quot;>RE4</div>'"
+            />
+          </div>
+
+          <div class="summary">
+            <p class="short-desc">
+              공간이 제한되는 땅에서 100명을 상대로 살아남아라.
+              배틀로얄의 장르를 이끌어낸 개척자.
+
+            </p>
+
+            <div class="summary-rows">
+              <div class="summary-row">
+                <div class="key">진수 평가:</div>
+                <div class="value">대체로 긍정적</div>
+              </div>
+              <div class="summary-row">
+                <div class="key">한줄 평가:</div>
+                <div class="value my">
+                  배틀로얄이라는 바다를 선두주자로 항해했지만
+                  결국 녹슬고 말았다.
+                  
+                </div>
+              </div>
+            </div>
+
+            <div class="meta-table">
+              <div class="meta-row">
+                <div class="key">출시일:</div>
+                <div class="value">2017년 12월 21일</div>
+              </div>
+              <div class="meta-row">
+                <div class="key">개발사:</div>
+                <div class="value">PUBG Corporation</div>
+              </div>
+              <div class="meta-row">
+                <div class="key">배급사:</div>
+                <div class="value">KRAFTON, Inc.</div>
+              </div>
+              <div class="meta-row">
+                <div class="key">장르:</div>
+                <div class="value">생존, 슈팅 / 배틀로얄</div>
+              </div>
+            </div>
+
+            <div class="tags-title">이 작품의 인기 태그:</div>
+            <div class="tags">
+              <span class="tag">생존</span>
+              <span class="tag">슈팅</span>
+              <span class="tag">배틀로얄</span>
+              <span class="tag">멀티플레이어</span>
+              <span class="tag">1인칭 슈팅</span>
+              <span class="tag">pvp</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="action-row">
+        <div class="action-left">
+          <button class="small-btn" type="button">팔로우</button>
+          <button class="small-btn" type="button">제외</button>
+          <button class="icon-btn" type="button">▾</button>
+        </div>
+
+        <button class="queue-btn" type="button" onclick="window.location.href='library.html'">
+  <span>←</span>
+  <span>라이브러리로 돌아가기</span>
+</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-inner review-section">
+    <h2 class="section-title">개진수의 리뷰</h2>
+
+    <article class="review-card">
+      <aside class="review-side">
+        <div class="avatar">🎮</div>
+        <div class="profile-name">개진수</div>
+       <div class="profile-stats">
+  <span id="profileGameCount">게임 0개</span><br />
+  <span id="profileReviewCount">리뷰 0개</span>
+</div>
+      </aside>
+
+      <div class="review-main">
+        <div class="review-head">
+          <div class="verdict-box">
+            <span class="thumb-icon">👍</span>
+            <div>
+              <div class="verdict-label">대체로 긍정적</div>
+              <div class="review-date">게시 일시: 2026년 4월 20일</div>
+            </div>
+          </div>
+
+          <div class="playtime">기록상 플레이 시간 미표기</div>
+        </div>
+
+        <div class="review-body">
+          pubg 배틀그라운드
+
+대한민국의 게임 산업과 배틀로얄 장르의 문을 연 시작점
+<br/><br/>
+
+정해진 맵과 점점 제한되는 공간 속에서, 랜덤으로 배치된 자원을 획득하고 총 100명의 인원과 생존을 위한 전투를 벌인다.
+이러한 랜덤성 속에서 플레이어는 센스와 실력을 바탕으로 다양한 난관을 헤쳐 나가야 한다.
+<br/><br/>
+
+자기장이라는 시스템이 매우 중요하게 작용하는데, 초반에는 넓은 범위에서 시작해 점점 좁아지는 방식으로 플레이어의 활동 공간을 제한한다.
+단순히 줄어드는 것에 그치지 않고, 초반에는 느린 속도로 시작해 점점 빠르게 축소되며 데미지 또한 증가한다. 이를 통해 게임의 전체적인 템포를 조절한다.
+
+<br/><br/>
+
+플레이어의 모든 판단은 자기장의 위치를 기준으로 이루어진다.
+단순히 자리 잡을 위치뿐만 아니라, 교전 여부, 아이템 파밍 시간, 심지어 사용할 무기 선택까지 영향을 받는다.
+이러한 구조 덕분에 플레이어는 생존을 위해 다양한 능력을 요구받고, 그 난관을 극복하는 과정에서 성취감과 재미를 느끼게 된다.
+<br/><br/>
+
+단순히 게임성만 놓고 보면 장르의 신드롬을 일으킬 만큼 높은 완성도를 지녔지만, 운영 방식과 BM 구조의 문제로 인해 게임 외적인 재미를 크게 저해하고 있다.
+또한 게임이 오래된 만큼 유저층의 고인물화가 진행되었고, PvP 특성상 진입 장벽이 점점 높아지고 있는 점도 한몫한다.
+<br/><br/>
+
+배틀로얄 형식의 많은 게임들이 배그를 시작으로 등장했으며, 이후 다양한 게임들이 각자의 방식으로 발전해 나갔다.
+그럼에도 불구하고 기둥과 같은 존재인 만큼, 게임 자체의 재미는 여전히 많은 유저들에게 사랑받고 있다.
+
+<br/><br/>
+
+결국 Battleground는
+장르의 선두주자로서 뛰어난 게임성을 바탕으로 오랜 시간 호황을 누렸지만, 핵 문제와 잘못된 운영 방식으로 인해 스스로 쇠퇴의 길을 걸어온 것처럼 보인다.
+이는 단순히 게임성뿐만 아니라, 운영이 유저 경험에 얼마나 큰 영향을 미치는지를 보여주는 사례다.
+        </div>
+
+        <div class="review-footer">
+  <span class="label">이 리뷰가 유용한가요?</span>
+  <button class="reaction-btn" type="button" data-reaction="yes">👍 네</button>
+  <button class="reaction-btn" type="button" data-reaction="no">👎 아니요</button>
+  <button class="reaction-btn" type="button" data-reaction="fun">😄 유쾌</button>
+</div>
+      </div>
+    </article>
+  </section>
+
+  <script>
+     const stage = document.getElementById("stage");
+    const thumbBar = document.getElementById("thumbBar");
+    const placeholder = document.getElementById("stagePlaceholder");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    let images = [];
+    let currentIndex = 0;
+    let autoSlide = null;
+    const autoSlideDelay = 3500;
+
+    function buildGallery() {
+      images = Array.from(stage.querySelectorAll(".stage-image"))
+        .filter(img => img.parentNode && img.getAttribute("src"));
+
+      images = images.filter(img => img.complete ? img.naturalWidth > 0 : true);
+
+      if (!images.length) {
+        placeholder.style.display = "flex";
+        prevBtn.style.display = "none";
+        nextBtn.style.display = "none";
+        return;
+      }
+
+      placeholder.style.display = "none";
+
+      images.forEach((img, index) => {
+        img.classList.remove("active");
+        if (index === 0) img.classList.add("active");
+
+        const thumb = document.createElement("button");
+        thumb.className = "thumb" + (index === 0 ? " active" : "");
+        thumb.type = "button";
+        thumb.innerHTML = `<img src="${img.getAttribute("src")}" alt="thumbnail ${index + 1}" />`;
+        thumb.addEventListener("click", () => switchImage(index));
+        thumbBar.appendChild(thumb);
+      });
+    }
+
+    function switchImage(index) {
+      if (!images.length || index === currentIndex) return;
+
+      const thumbs = thumbBar.querySelectorAll(".thumb");
+      images[currentIndex].classList.remove("active");
+      thumbs[currentIndex]?.classList.remove("active");
+
+      currentIndex = index;
+
+      images[currentIndex].classList.add("active");
+      thumbs[currentIndex]?.classList.add("active");
+    }
+
+    function nextImage() {
+      if (!images.length) return;
+      const next = (currentIndex + 1) % images.length;
+      switchImage(next);
+    }
+
+    function prevImage() {
+      if (!images.length) return;
+      const prev = (currentIndex - 1 + images.length) % images.length;
+      switchImage(prev);
+    }
+function startAutoSlide() {
+  stopAutoSlide();
+
+  if (!images.length || images.length <= 1) return;
+
+  autoSlide = setInterval(() => {
+    nextImage();
+  }, autoSlideDelay);
+}
+
+function stopAutoSlide() {
+  if (autoSlide) {
+    clearInterval(autoSlide);
+    autoSlide = null;
+  }
+}
+    prevBtn.addEventListener("click", () => {
+  prevImage();
+  startAutoSlide();
+});
+
+nextBtn.addEventListener("click", () => {
+  nextImage();
+  startAutoSlide();
+});
+
+   window.addEventListener("load", () => {
+  buildGallery();
+  startAutoSlide();
+});
+     const reactionYes = document.querySelector('[data-reaction="yes"]');
+  const reactionNo = document.querySelector('[data-reaction="no"]');
+  const reactionFun = document.querySelector('[data-reaction="fun"]');
+
+  if (reactionYes && reactionNo && reactionFun) {
+    reactionYes.addEventListener("click", () => {
+      const isActive = reactionYes.classList.contains("active-yes");
+      reactionYes.classList.toggle("active-yes", !isActive);
+      reactionNo.classList.remove("active-no");
+    });
+
+    reactionNo.addEventListener("click", () => {
+      const isActive = reactionNo.classList.contains("active-no");
+      reactionNo.classList.toggle("active-no", !isActive);
+      reactionYes.classList.remove("active-yes");
+    });
+
+    reactionFun.addEventListener("click", () => {
+      reactionFun.classList.toggle("active-fun");
+    });
+  }
+
+  
+  function updateProfileStats(reviewKey) {
+    localStorage.setItem(reviewKey, "1");
+
+    const gameCount = Number(localStorage.getItem("gajinsu_game_count") || 0);
+
+    const reviewKeys = Object.keys(localStorage).filter(key => key.startsWith("gajinsu_review_"));
+    const reviewCount = reviewKeys.length;
+
+    const gameCountEl = document.getElementById("profileGameCount");
+    const reviewCountEl = document.getElementById("profileReviewCount");
+
+    if (gameCountEl) {
+      gameCountEl.textContent = `게임 ${gameCount}개`;
+    }
+
+    if (reviewCountEl) {
+      reviewCountEl.textContent = `리뷰 ${reviewCount}개`;
+    }
+  }
+
+  updateProfileStats("gajinsu_review_L4D");
+
+  stage.addEventListener("mouseenter", stopAutoSlide);
+stage.addEventListener("mouseleave", startAutoSlide);
+
+thumbBar.addEventListener("mouseenter", stopAutoSlide);
+thumbBar.addEventListener("mouseleave", startAutoSlide);
+
+  </script>
+</body>
+</html>

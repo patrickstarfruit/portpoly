@@ -383,12 +383,24 @@
         <div class="card-label">PUBG: BATTLEGROUNDS</div>
       </div>
     </div>
+
+    <div class="card-scene">
+      <div class="card" data-title="Left 4 Dead 2" onclick="window.location.href='L4D.html'">
+        <img src="library-list/L4D/L4D.jpg" alt="Left 4 Dead" draggable="false" />
+        <div class="card-shine"></div>
+        <div class="card-glow"></div>
+        <div class="card-label">Left 4 Dead</div>
+      </div>
+    </div>
   </div>
 </div>
+
+
+
   <script>
     const grid = document.getElementById("gameGrid");
 
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < 15; i++) {
       const scene = document.createElement("div");
       scene.className = "card-scene";
       scene.innerHTML = `
